@@ -1,3 +1,4 @@
+//[백준 c++] 1929 소수 구하기
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
