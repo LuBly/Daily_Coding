@@ -1,3 +1,4 @@
+//[백준 c++] 11650 좌표 정렬하기
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
