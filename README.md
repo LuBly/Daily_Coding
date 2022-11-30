@@ -8,3 +8,4 @@ https://jhnyang.tistory.com/440
 
 ## 사용한 함수
 - #include <algorithm> 의 sort() 함수 > quick sort 방식을 자동적으로 적용시켜줌
+- sort의 Unique 함수 - 중복되는 원소들을 뒤로 빼는 함수
