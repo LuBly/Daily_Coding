@@ -13,16 +13,17 @@ https://jhnyang.tistory.com/440
 1. stoi(str)
 2. sstream의 stringstream과 getline을 활용
 ```c++
-    istringstream ss(s);
-    while (getline(ss, stringBuffer, ' '))
-    {
-        int tmp;
-        stringstream ssInt(stringBuffer);
-        ssInt >> tmp;
-        num.push_back(tmp);
-    }
+istringstream ss(s);
+while (getline(ss, stringBuffer, ' '))
+{
+    int tmp;
+    stringstream ssInt(stringBuffer);
+    ssInt >> tmp;
+    num.push_back(tmp);
+}
 ```
 - int to string > 
+1. string 라이브러리의 to_string()함수 활용
 
 ## 개념
 - 행렬의 곱셈 -> 간단하지만 생각외로 복잡했다. 
