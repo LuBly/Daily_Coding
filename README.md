@@ -9,7 +9,21 @@ https://jhnyang.tistory.com/440
 ## 사용한 함수
 - #include <algorithm> 의 sort() 함수 > quick sort 방식을 자동적으로 적용시켜줌
 - sort의 Unique 함수 - 중복되는 원소들을 뒤로 빼는 함수
-  
+- string to int 
+1. stoi(str)
+2. sstream의 stringstream과 getline을 활용
+```c++
+    istringstream ss(s);
+    while (getline(ss, stringBuffer, ' '))
+    {
+        int tmp;
+        stringstream ssInt(stringBuffer);
+        ssInt >> tmp;
+        num.push_back(tmp);
+    }
+```
+- int to string > 
+
 ## 개념
 - 행렬의 곱셈 -> 간단하지만 생각외로 복잡했다. 
 ```c++
@@ -25,3 +39,4 @@ for(int a = 0; a < arr1.size(); a++){
         answer.push_back(row);
     }
 ```
+
