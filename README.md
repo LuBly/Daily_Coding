@@ -22,7 +22,7 @@ while (getline(ss, stringBuffer, ' '))
     num.push_back(tmp);
 }
 ```
-- int to string > 
+- int to string 
 1. string 라이브러리의 to_string()함수 활용
 
 ## 개념
