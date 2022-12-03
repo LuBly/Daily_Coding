@@ -23,8 +23,8 @@ while (getline(ss, stringBuffer, ' '))
 }
 ```
 - int to string 
-1. string 라이브러리의 to_string()함수 활용
-
+1. <string> 라이브러리의 to_string()함수 활용
+- <cmath> 라이브러리의 pow_제곱, sqrt_제곱근 함수
 ## 개념
 - 행렬의 곱셈 -> 간단하지만 생각외로 복잡했다. 
 ```c++
@@ -40,4 +40,4 @@ for(int a = 0; a < arr1.size(); a++){
         answer.push_back(row);
     }
 ```
-
+- 제곱, 제곱근
