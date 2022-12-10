@@ -14,10 +14,14 @@ https://jhnyang.tistory.com/440
     2. sstream의 stringstream과 getline을 활용
 
 - int to string 
-    1. <string> 라이브러리의 to_string()함수 활용
-- <cmath> 라이브러리의 pow_제곱, sqrt_제곱근 함수
+    1. string 라이브러리의 to_string()함수 활용
+- cmath 라이브러리의 pow_제곱, sqrt_제곱근 함수
+- bitset 라이브러리의 bitset<비트사이즈> 변수명
+    - 비트사이즈가 고정된 상태
 ## 개념
 - 행렬의 곱셈
 - 제곱, 제곱근
-- 최대공약수 : 유클리드 호제법 //멀쩡한 사각형
+- 최대공약수 : 유클리드 호제법 //day14_1멀쩡한 사각형
+- 2진수 만들기 //day18_1 숫자의 표현
+
 
