@@ -1,4 +1,4 @@
-//[백준 c++] 11557 Yangjojang of The Year
+//[백준 c++] 11557 Yangjojang of The Year.
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstring>
