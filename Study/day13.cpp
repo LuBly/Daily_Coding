@@ -1,3 +1,4 @@
+//[Programmers C++] 최솟값 만들기
 #include <iostream>
 #include <vector>
 #include <algorithm>

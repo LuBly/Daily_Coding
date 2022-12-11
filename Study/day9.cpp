@@ -1,3 +1,4 @@
+//[Programmers C++] 연속 부분 수열 합의 개수
 #include <string>
 #include <vector>
 #include <algorithm>

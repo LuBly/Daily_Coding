@@ -1,3 +1,4 @@
+//[Programmers C++] 점 찍기
 #include <string>
 #include <vector>
 #include <cmath>

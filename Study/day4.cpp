@@ -1,4 +1,4 @@
-//[백준 c++] 1408 24
+//[백준 c++] 1408 24.
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstring>

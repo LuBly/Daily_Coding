@@ -1,4 +1,4 @@
-//[백준 c++] 2908 상수
+//[백준 c++] 2908 상수.
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <sstream>
@@ -23,7 +23,6 @@ int main() {
 	int outB = stoi(b);
 
 	int result = max(outA, outB);
-
 	printf("%d", result);
 	return 0;
 }
