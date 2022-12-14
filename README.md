@@ -25,3 +25,4 @@ https://jhnyang.tistory.com/440
 - 2진수 만들기 //day18_1 숫자의 표현
 - 재귀함수는 편리하긴 하지만, 반복문에 비해 반복작업 속도가 느리다.
 - 모듈러 함수 공식 **(A + B) % C ≡ ( ( A % C ) + ( B % C) ) % C**
+- Stack (First In Last Out)
