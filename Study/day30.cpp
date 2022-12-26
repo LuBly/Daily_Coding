@@ -1,4 +1,4 @@
-//[Programmers C++] 구명보트
+//[Programmers C++] 구명보트 .
 #include <string>
 #include <vector>
 #include <algorithm>
