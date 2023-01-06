@@ -11,11 +11,11 @@ https://jhnyang.tistory.com/440
 - #include <algorithm> 의 sort() 함수 > quick sort 방식을 자동적으로 적용시켜줌
 - sort의 Unique 함수 - 중복되는 원소들을 뒤로 빼는 함수
 - string to int 
-    1. stoi(str)
-    2. sstream의 stringstream과 getline을 활용
+    - stoi(str)
+    - sstream의 stringstream과 getline을 활용
 
 - int to string 
-    1. string 라이브러리의 to_string()함수 활용
+    - string 라이브러리의 to_string()함수 활용
 - cmath 라이브러리의 pow_제곱, sqrt_제곱근 함수
 - bitset 라이브러리의 bitset<비트사이즈> 변수명
     - 비트사이즈가 고정된 상태
