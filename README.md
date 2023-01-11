@@ -19,6 +19,8 @@ https://jhnyang.tistory.com/440
 - cmath 라이브러리의 pow_제곱, sqrt_제곱근 함수
 - bitset 라이브러리의 bitset<비트사이즈> 변수명
     - 비트사이즈가 고정된 상태
+- cstring 라이브러리
+    - strcasecmp(str A.c_str(), str B.c_str());
 
 ## 사용한 라이브러리
 - map 
