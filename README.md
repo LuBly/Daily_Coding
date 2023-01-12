@@ -21,12 +21,15 @@ https://jhnyang.tistory.com/440
     - 비트사이즈가 고정된 상태
 - cstring 라이브러리
     - strcasecmp(str A.c_str(), str B.c_str());
+- queue 라이브러리
+    - priority_queue<타입, 구조, 함수> 우선순위에 따라 queue를 정렬해줌
 
 ## 사용한 라이브러리
 - map 
     - map<key,value> 키 값을 기준으로 데이터를 저장 많은 데이터들을 저장하고 열람하기에 용이함.
 - set
     - 데이터들을 중복없이 저장하기에 용이함 ex)set(string) 하면 자동으로 중복된 string 값들을 제거함.
+- queue
     
 ## 개념
 - 행렬의 곱셈
