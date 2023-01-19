@@ -39,9 +39,9 @@ https://jhnyang.tistory.com/440
 - queue
     - priority_queue
 - cstring
-    -strcasecmp
+    - strcasecmp
 - cmath
-    -pow, sqrt
+    - pow, sqrt
 
     
 ## 개념
