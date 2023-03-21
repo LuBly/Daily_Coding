@@ -2,7 +2,7 @@
 #include <vector>
 
 using namespace std;
-
+//update check
 int solution(int num1, int num2) {
     int answer = 0;
     answer=num1/num2;
