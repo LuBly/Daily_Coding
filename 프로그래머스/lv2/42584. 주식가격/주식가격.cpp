@@ -1,22 +1,24 @@
 #include <string>
 #include <vector>
-
+#include <stack>
+#include <iostream>
 using namespace std;
 
 vector<int> solution(vector<int> prices) {
-    vector<int> answer;
+    int size = prices.size();
+    vector<int> answer(size);
+    stack<int> st;//인덱스 값을 저장하는 스택
     
-    for(int k=0;k<prices.size()-1;k++){
-        int time = 0;
-        for(int j=k+1;j<prices.size();j++){
-            if(prices[k]<=prices[j]) time++;
-            else{
-                time++;
-                break;
-            }
+    for(int k=0;k<size;k++){
+        while(!st.empty()&&prices[st.top()]>prices[k]){
+            answer[st.top()]=k-st.top();
+            st.pop();
         }
-        answer.push_back(time);
+        st.push(k);
     }
-    answer.push_back(0);
+    while(!st.empty()){
+        answer[st.top()]=size-st.top()-1;
+        st.pop();
+    }
     return answer;
 }
