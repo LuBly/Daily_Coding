@@ -1,59 +1,56 @@
+//[Baekjoon C++] 벽 부수고 이동하기 [BFS]
 #include <iostream>
-#include <string>
-#include <vector>
 #include <queue>
 #include <tuple>
+#include <vector>
 using namespace std;
-int dir[4][2] = { {0,1},{1,0},{0,-1},{-1,0} };
-int r,c;
-int visited[1000][1000][2];
-int bfs(int row, int col, vector<string> &graph ) {
-    queue<tuple<int, int, int>> q;
-    q.push({ row,col,1 });
-    visited[row][col][1] = 1;
 
-    while (!q.empty()) {
-        int current_r = get<0>(q.front());
-        int current_c = get<1>(q.front());
-        int block = get<2>(q.front());
+
+//bfs를 활용하여 문제풀이.
+//벽을 깬 횟수까지 포함하여 계산
+//bool board[1000][1000] = {false,};
+int dist[1000][1000][2]={0,};//y,x,can_break->true(벽을 안부수고) , false(벽을 부수고)
+int dir[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
+int length,width;
+
+int bfs(int y, int x, vector<string> &board){
+    queue<pair<pair<int, int>, int>> q;
+    q.push({ {0,0},1 });
+    dist[0][0][1] = 1;
+    while(!q.empty()){
+        int cy = q.front().first.first;
+        int cx = q.front().first.second;
+        int can_break = q.front().second;
         q.pop();
-
-        if (current_r == r - 1 && current_c == c - 1) { //도착지에 도달하면 return
-            return visited[current_r][current_c][block];
-        }
-
-        for (int i = 0; i < 4; i++) {
-            int next_r = current_r + dir[i][0];
-            int next_c = current_c + dir[i][1];
-            if (next_r >= 0 && next_r < r&& next_c >= 0 && next_c < c) {
-                //다음 칸이 벽이고 뚫을 수 있을 때
-                if (graph[next_r][next_c] == '1' && block) {
-                    q.push({next_r,next_c ,0});
-                    visited[next_r][next_c][0] = visited[current_r][current_c][block] + 1;
-                }
-                //다음 칸이 0이고 방문하지 않았을 때
-                else if (graph[next_r][next_c] == '0' && visited[next_r][next_c][block] == 0) {
-                    q.push({ next_r,next_c,block });
-                    visited[next_r][next_c][block] = visited[current_r][current_c][block] + 1;
-                }
+        //도착지에 도달하면 return
+        if(cy==length-1&&cx==width-1) return dist[cy][cx][can_break]; 
+        for(int k=0;k<4;k++){
+            int ny=cy+dir[k][0];
+            int nx=cx+dir[k][1];
+            if(ny>=length||nx>=width||ny<0||nx<0) continue;//범위 밖으로 나갈 경우 무시
+            //다음칸이 벽이고 뚫을 수 있을 때
+            if(board[ny][nx]=='1'&&can_break){
+                q.push({{ny,nx},false});
+                dist[ny][nx][0] = dist[cy][cx][can_break]+1;
+            }
+            //다음칸이 0이고 방문하지 않았을 때
+            else if(board[ny][nx]=='0'&&dist[ny][nx][can_break]==0){
+                q.push({{ny,nx},can_break});
+                dist[ny][nx][can_break]=dist[cy][cx][can_break]+1;
             }
         }
-
     }
     return -1;
-
 }
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
-
-    cin >> r>>c;
-    vector<string> graph(r);
-    for (int i = 0; i < r; i++) {
-        cin >> graph[i];
+int main() {ios_base::sync_with_stdio(false); cout.tie(NULL); cin.tie(NULL);
+    
+    cin>>length>>width;
+    vector<string> board(length);
+    //board 생성
+    for(int y=0;y<length;y++){
+        cin>>board[y];
     }
-    cout <<bfs(0, 0,graph);
+    cout<<bfs(0,0,board);
     return 0;
 }
