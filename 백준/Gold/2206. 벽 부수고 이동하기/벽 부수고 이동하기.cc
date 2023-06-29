@@ -2,20 +2,20 @@
 #include <string>
 #include <vector>
 #include <queue>
-#include <algorithm>
+#include <tuple>
 using namespace std;
 int dir[4][2] = { {0,1},{1,0},{0,-1},{-1,0} };
 int r,c;
 int visited[1000][1000][2];
 int bfs(int row, int col, vector<string> &graph ) {
-    queue<pair<pair<int, int>, int>> q;
-    q.push({ {0,0},1 });
-    visited[0][0][1] = 1;
+    queue<tuple<int, int, int>> q;
+    q.push({ row,col,1 });
+    visited[row][col][1] = 1;
 
     while (!q.empty()) {
-        int current_r = q.front().first.first;
-        int current_c = q.front().first.second;
-        int block = q.front().second;
+        int current_r = get<0>(q.front());
+        int current_c = get<1>(q.front());
+        int block = get<2>(q.front());
         q.pop();
 
         if (current_r == r - 1 && current_c == c - 1) { //도착지에 도달하면 return
@@ -28,12 +28,12 @@ int bfs(int row, int col, vector<string> &graph ) {
             if (next_r >= 0 && next_r < r&& next_c >= 0 && next_c < c) {
                 //다음 칸이 벽이고 뚫을 수 있을 때
                 if (graph[next_r][next_c] == '1' && block) {
-                    q.push({ {next_r,next_c} ,0 });
-                    visited[next_r][next_c][block - 1] = visited[current_r][current_c][block] + 1;
+                    q.push({next_r,next_c ,0});
+                    visited[next_r][next_c][0] = visited[current_r][current_c][block] + 1;
                 }
                 //다음 칸이 0이고 방문하지 않았을 때
                 else if (graph[next_r][next_c] == '0' && visited[next_r][next_c][block] == 0) {
-                    q.push({ {next_r,next_c},block });
+                    q.push({ next_r,next_c,block });
                     visited[next_r][next_c][block] = visited[current_r][current_c][block] + 1;
                 }
             }
