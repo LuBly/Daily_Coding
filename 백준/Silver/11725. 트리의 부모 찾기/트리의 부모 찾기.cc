@@ -17,6 +17,8 @@ void bfs(int start,int node){
     while(!q.empty()){
         int cur = q.front();
         q.pop();
+        //모든 노드를 직접 check하기엔 사용하는 memory가 너무 많았다.
+        //따라서 인접한 노드들만 따로 check하는 방식을 채택
         for(int k=0;k<board[cur].size();k++){
             int child = board[cur][k];
             if(!is_visit[child]){//edge가 있고, 방문한적 없는 노드라면 방문
