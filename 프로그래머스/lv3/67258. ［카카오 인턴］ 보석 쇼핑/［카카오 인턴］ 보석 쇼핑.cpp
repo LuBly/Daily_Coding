@@ -1,52 +1,51 @@
 #include <string>
 #include <vector>
-#include <map>
+#include <iostream>
+#include <unordered_map>
 using namespace std;
-
+// 보석 개수 파악
+// start, end 동시 시작
+// 1. end 뒤로 빼면서 보석 개수 전부 포함할 때까지 이동
+// 2. 전부 포함했을 때, start에서 보석이 하나 사라질 때까지 이동.
 vector<int> solution(vector<string> gems) {
-    vector<int> answer;
-    //처음부터 끝까지 보석종류-개수 를 map에 저장해놓고
-    //투포인터를 사용
-    //앞에서 map[보석종류]<1인 지점을 찾기
-    //뒤에서 map[보석종류]<1인 지점을 찾기
-    map<string,int> data;
-    int start=0, end=0;
-    int min_start=0, min_end=0;
+    vector<int> answer(2);
     
-    for(int k=0;k<gems.size();k++){
-        string gem = gems[k];
-        data[gem]++;
-        if(data[gem]==1){//지금 들어온 보석이 처음 들어온 보석이라면 end포인트 갱신
-            end = k;
-            min_start=start;
-            min_end=end;
-        }
-        //중복된 요소가 들어온 경우
-        //시작지점부터 중복된 보석이 들어온 만큼 이동
-        else{
-            end = k;
-            for(int j=start;j<k;j++){
-                string chk = gems[j];
-                //head쪽에 2개 이상 있는 경우 1개 제거
-                if(data[chk]>1)
-                    data[chk]--;
-                else{
-                    //1개만 있는 경우 해당 위치를 구간의 시작으로 잡고 갱신 종료
-                    start=j;
-                    if((end-start)<(min_end-min_start)){
-                        min_start = start;
-                        min_end = end;
-                    }
-                    break;
-                }
+    unordered_map<string,int> gemData;
+    for(auto gem : gems)
+        gemData[gem]++;
+    
+    int idx = 0, start = 0, end = 0, minLen = 987654321;
+    
+    unordered_map<string,int> curGems;
+    while(true){
+        for(idx = end; idx < gems.size(); idx++){
+            curGems[gems[idx]]++;
+            if(curGems.size() == gemData.size()){
+                end = idx;
+                break;
             }
         }
+        
+        if(idx == gems.size())
+            break;
+        
+        for(idx = start; idx < gems.size(); idx++){
+            if(curGems[gems[idx]] == 1){
+                start = idx;
+                break;
+            }
+            else curGems[gems[idx]]--;
+        }
+        
+        if(end - start < minLen){
+            answer[0] = start+1;
+            answer[1] = end+1;
+            minLen = end - start;
+        }
+        
+        curGems.erase(gems[start]);
+        start++;
+        end++;
     }
-    
-    
-    
-    answer.push_back(min_start+1);
-    answer.push_back(min_end+1);
-    
     return answer;
 }
