@@ -1,98 +1,114 @@
 #include <string>
 #include <vector>
-#include <queue>
-#define MAX 999999
+#include <algorithm>
+#include <iostream>
+#define MAX 987654321
 using namespace std;
 
-int dx[] = {-1,1,0,0};
-int dy[] = {0,0,-1,1};
-bool visited[4][4][2] = {false};
-bool redEnd,blueEnd;
-int map[4][4] = {0};
-int width,height;
-
-struct Point{
-    int x,y;
+//bfs? backtracking
+/*
+각각의 visit 정보를 가지고 동시에 진행
+backTracking을 활용하면서 dfs 진행
+RedSt, RedDt, BlueSt, BlueDt 항상 일정
+dfs(RSt, RDt, BSt, BDt, 0);
+*/
+struct Node{
+    int y, x;
 };
 
-// 해당 방향으로 움직임 반환
-Point getNext(int x, int y, int dir){
-    int nx = x + dx[dir];
-    int ny = y + dy[dir];
-    return {nx,ny};
+int dy[4] = {-1,1,0,0};
+int dx[4] = {0,0,-1,1};
+vector<vector<bool>> RVisit(5,vector<bool>(5,false));
+vector<vector<bool>> BVisit(5,vector<bool>(5,false));
+vector<vector<int>> board;
+int length, width;
+bool redEnd = false, blueEnd = false;
+// 시작 포인트와 카운트만 가지고 있다.
+
+bool isPossible(Node curR, Node nextR, Node curB, Node nextB){
+    // 각 포인트가 칸을 벗어나는 경우, 벽을 만나는 경우 false
+    if(nextR.y >= length || nextR.x >= width || nextR.y < 0 || nextR.x < 0 
+    || nextB.y >= length || nextB.x >= width || nextB.y < 0 || nextB.x < 0
+    || board[nextR.y][nextR.x] == 5 || board[nextB.y][nextB.x] == 5) 
+        return false;
+    
+    // 두 수레의 switch check, 자리를 뒤바꾸는 경우 false
+    if((curR.x == nextB.x && curR.y == nextB.y) 
+    && (curB.x == nextR.x && curB.y == nextR.y)) return false;
+    
+    // end가 아니면서 중복 방문이라면 false
+    if((!redEnd && RVisit[nextR.y][nextR.x]) || (!blueEnd && BVisit[nextB.y][nextB.x])) return false;
+    
+    // 두 수레가 동일한 지점에 위치할 경우
+    if(nextR.y == nextB.y && nextR.x == nextB.x) return false;
+    
+    return true;
 }
 
-bool isPossible(Point cntRed, Point red, 
-                               Point cntBlue, Point blue){
-        // 기본 탐색 규칙
-        if(red.x < 0 || red.y < 0 || red.x >= height || red.y >= width
-          || blue.x < 0 || blue.y < 0 || blue.x >= height || blue.y >= width
-          || map[red.x][red.y] == 5 || map[blue.x][blue.y] == 5) return false;
-        
-        // 두 수레 스위치 체크
-        if((cntRed.x == blue.x && cntRed.y == blue.y)
-          && (cntBlue.x == red.x && cntBlue.y == red.y)) return false;
-        
-        // 도착지점에 도착하지도 않고 중복방문이라면 false
-        if((!redEnd && visited[red.x][red.y][0])
-           || (!blueEnd && visited[blue.x][blue.y][1])) return false;
-        
-        // 두 수레가 동일한 지점에 위치시 
-        if(red.x == blue.x && red.y == blue.y) return false;
-        return true;
-    }
-
-// 백트래킹
-int backtracking(Point red, Point blue, int result){
-    	// 두 수레가 모두 도착 시 result 반환
-        if(redEnd && blueEnd) return result;
-        int answer = MAX;
-        
-        // 2중 for문으로 16가지 경우의 수
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-            	// 도착지점에 도착한 경우엔 움직이지 않음
-                Point nRed = (!redEnd) ? getNext(red.x,red.y,i) : red;
-                Point nBlue = (!blueEnd) ? getNext(blue.x,blue.y,j) : blue;
-                
-                // 불가능한 경우 conitnue
-                if(!isPossible(red,nRed,blue,nBlue)) continue;
-                visited[nRed.x][nRed.y][0] = true;
-                visited[nBlue.x][nBlue.y][1] = true;
-                if(map[nRed.x][nRed.y] == 3) redEnd = true;
-                if(map[nBlue.x][nBlue.y] == 4) blueEnd = true;
-                
-                // 가장 적게 걸리는 턴 수
-                answer = min(answer,backtracking(nRed,nBlue,result+1));
-                
-                // 방문 기록 및 도착 기록 초기화
-                redEnd = false;
-                blueEnd = false;
-                visited[nRed.x][nRed.y][0] = false;
-                visited[nBlue.x][nBlue.y][1] = false;
+int dfs(Node curR, Node curB, int cnt){
+    if(redEnd && blueEnd) return cnt;
+    
+    int answer = MAX;
+    
+    for(int rIdx = 0; rIdx < 4; rIdx++){
+        for(int bIdx = 0; bIdx < 4; bIdx++){
+            Node nextR, nextB;
+            if(redEnd){
+                nextR = curR;
             }
+            else
+                nextR = {curR.y + dy[rIdx], curR.x + dx[rIdx]};
+            
+            if(blueEnd){
+                nextB = curB;
+            }
+            else{
+                nextB = {curB.y + dy[bIdx], curB.x + dx[bIdx]};
+            }
+            
+            if(!isPossible(curR, nextR, curB, nextB)) continue;
+            RVisit[nextR.y][nextR.x] = true;
+            BVisit[nextB.y][nextB.x] = true;
+            
+            if(board[nextR.y][nextR.x] == 3) redEnd = true;
+            if(board[nextB.y][nextB.x] == 4) blueEnd = true;
+            
+            // 가장 적게 걸리는 턴 수 저장
+            answer = min(answer, dfs(nextR, nextB, cnt + 1));
+            
+            // 방문 기록 및 도착 기록 초기화
+            redEnd = false;
+            blueEnd = false;
+            RVisit[nextR.y][nextR.x] = false;
+            BVisit[nextB.y][nextB.x] = false;
         }
-        return answer;
     }
+    return answer;
+}
 
 int solution(vector<vector<int>> maze) {
-    Point cntRed,cntBlue;
-    height = maze.size();
+    
+    Node RSt, BSt;
+    length = maze.size();
     width = maze[0].size();
-    for(int i = 0; i < maze.size(); i++){
-        for(int j = 0; j < maze[i].size(); j++){
-            map[i][j] = maze[i][j];
-            
-            // 각 수레의 시작위치 초기화
-            if(maze[i][j] == 1) cntRed = {i,j};
-            else if(maze[i][j] == 2) cntBlue = {i,j};
+    board = maze;
+    
+    for(int y = 0; y < length; y++){
+        for(int x = 0; x < width; x++){
+            switch(maze[y][x]){
+                case 1 :
+                    RSt = {y,x};
+                    break;
+                case 2 :
+                    BSt = {y,x};
+                    break;
+            }
         }
     }
-    // 시작 위치 방문 처리 (0은 빨간 수레, 1은 파란 수레)
-    visited[cntRed.x][cntRed.y][0] = true;
-    visited[cntBlue.x][cntBlue.y][1] = true;
     
-    int answer = backtracking(cntRed,cntBlue,0);
-    return (answer == MAX)? 0 : answer;
+    RVisit[RSt.y][RSt.x] = true;
+    BVisit[BSt.y][BSt.x] = true;
+    int answer = dfs(RSt, BSt, 0);
+    return (answer == MAX) ? 0 : answer;
     return answer;
 }
