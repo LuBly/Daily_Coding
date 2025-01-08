@@ -1,66 +1,55 @@
-//[BaekJoon C++] 여행 가자 [UnionFind]
 #include <iostream>
 #include <vector>
-#define MAX 201
 using namespace std;
-
-int parent[MAX];
-int find(int x){
+// 16 40 ~ 
+int n, m;
+vector<int> parent;
+int findParent(int x){
     if(parent[x] == x) return x;
-    else return parent[x] = find(parent[x]);
+    else return findParent(parent[x]);
 }
 
-void uni(int x, int y){
-    x = find(x);
-    y = find(y);
-
-    // 부모노드를 작은쪽으로 정렬
-    if(x > y) parent[x] = y;
-    else parent[y] = x;
+void unionParent(int a, int b){
+    a = findParent(a);
+    b = findParent(b);
+    if(a < b) parent[b] = a;
+    else parent[a] = b;
 }
 
-bool isSameParent(int x, int y){
-    x = find(x);
-    y = find(y);
-
-    if(x == y) return true;
+bool matchParent(int a, int b){
+    a = findParent(a);
+    b = findParent(b);
+    if(a == b) return true;
     else return false;
 }
 
-int main(void){ios_base::sync_with_stdio(false); cout.tie(NULL); cin.tie(NULL);
-    int cityCnt, planCnt;
-    cin >> cityCnt >> planCnt;
+int main() { ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);    
+    cin >> n >> m;
+    parent.resize(n+1);
+    for(int i = 1; i <= n; i++){
+        parent[i] = i;
+    }
 
-    vector<vector<int>> board(cityCnt+1, vector<int>(cityCnt+1));
-    for(int y = 1; y <= cityCnt; y++){
-        for(int x = 1; x <= cityCnt; x++){
-            cin >> board[y][x];
+    // board로 연결 여부 체크
+    for(int y = 1; y <= n; y++){
+        for(int x = 1; x <= n; x++){
+            int connect;
+            cin >> connect;
+            if(connect == 1)
+                unionParent(y,x);
         }
     }
 
-    for(int k = 1; k <= cityCnt; k++){
-        parent[k] = k;
-    }
-
-    for(int y = 1; y <= cityCnt; y++){
-        for(int x = y; x <= cityCnt; x++){
-            if(board[y][x]) 
-                uni(x,y);
-        }
-    }
-
-    int start;
-    cin >> start;
-
-    for(int k = 1; k < planCnt; k++){
+    int st;
+    cin >> st;
+    for(int a = 1; a < m; a++){
         int cmp;
         cin >> cmp;
-        if(!isSameParent(start, cmp)){
+        if(!matchParent(st, cmp)){
             cout << "NO";
             return 0;
         }
     }
-
     cout << "YES";
     return 0;
 }
